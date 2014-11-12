@@ -94,6 +94,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="libs\ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj">
+      <Project>{6c55b776-26d4-4db3-a6ab-87e783b2f3d1}</Project>
+      <Name>ICSharpCode.AvalonEdit</Name>
+    </ProjectReference>
     <ProjectReference Include="libs\Xceed.Wpf.AvalonDock.Themes.Aero\Xceed.Wpf.AvalonDock.Themes.Aero.csproj">
       <Project>{ba72cce0-a9fb-4995-b496-7fec5c87b85b}</Project>
       <Name>Xceed.Wpf.AvalonDock.Themes.Aero</Name>
