@@ -23,6 +23,8 @@ namespace glimmer
             fileCount = fileCount + 1;
             Title = "New File " + fileCount;
 
+            Document = new TextDocument();
+
             IsDirty = true;
         }
 
