@@ -23,6 +23,9 @@ namespace glimmer
         public MainWindow()
         {
             InitializeComponent();
+
+            // Data context is singleton workspace class
+            this.DataContext = Workspace.This;
         }
     }
 }

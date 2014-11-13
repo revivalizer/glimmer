@@ -3,7 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:local="clr-namespace:glimmer"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -11,26 +15,23 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}"/>
+                <!---<MenuItem Header="New" Command="{Binding NewCommand}"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <Separator/>
                 <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
                 <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
                 <Separator/>
-                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
+                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>-->
             </MenuItem>
         </Menu>
-        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="1">
+        <avalonDock:DockingManager
+            x:Name="dockingManager"
+            DocumentsSource="{Binding Files}"
+            ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
+            Grid.Row="1">
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
-                    <avalonDock:LayoutDocumentPane>
-                        <avalonDock:LayoutDocument Title="Test">
-                            <TextBox/>
-                        </avalonDock:LayoutDocument>
-                        <avalonDock:LayoutDocument Title="Test 2">
-                            <TextBox/>
-                        </avalonDock:LayoutDocument>
-                    </avalonDock:LayoutDocumentPane>
+                    <avalonDock:LayoutDocumentPane/>
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
