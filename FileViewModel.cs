@@ -8,19 +8,56 @@ using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using ICSharpCode.AvalonEdit.Document;
 
 namespace glimmer
 {
-    class FileViewModel
+    class FileViewModel : PaneViewModel
     {
         static int fileCount = 0;
 
-        string title;
+        string Title;
 
         public FileViewModel()
         {
             fileCount = fileCount + 1;
-            title = "New File " + fileCount;
+            Title = "New File " + fileCount;
+
+            IsDirty = true;
         }
+
+        #region Document
+        private TextDocument _document = null;
+        public TextDocument Document
+        {
+            get { return this._document; }
+            set
+            {
+                if (this._document != value)
+                {
+                    this._document = value;
+                    RaisePropertyChanged("Document");
+                    IsDirty = true;
+                }
+            }
+        }
+        #endregion
+
+        #region IsDirty
+        private bool _isDirty = false;
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set
+            {
+                if (_isDirty != value)
+                {
+                    _isDirty = value;
+                    RaisePropertyChanged("IsDirty");
+                    RaisePropertyChanged("FileName");
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -29,6 +29,26 @@
             DocumentsSource="{Binding Files}"
             ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
             Grid.Row="1">
+            <avalonDock:DockingManager.DocumentHeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </avalonDock:DockingManager.DocumentHeaderTemplate>
+            <avalonDock:DockingManager.LayoutItemTemplateSelector>
+                <local:PanesTemplateSelector>
+                    <local:PanesTemplateSelector.FileViewTemplate>
+                        <DataTemplate>
+                              <avalonEdit:TextEditor    Document="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
+                                                        IsModified="{Binding Path=IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              />
+                                                        <!---SyntaxHighlighting="{Binding HighlightDef}"-->
+                                                        <!---IsReadOnly="{Binding IsReadOnly}"-->
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.FileViewTemplate>
+                </local:PanesTemplateSelector>
+            </avalonDock:DockingManager.LayoutItemTemplateSelector>
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutDocumentPane/>

@@ -54,7 +54,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ActiveDocumentConverter.cs" />
+    <Compile Include="PanesTemplateSelector.cs" />
+    <Compile Include="PaneViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Compile Include="Workspace.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
