@@ -18,9 +18,11 @@ namespace glimmer
     {
         static int fileCount = 0;
 
+        #region Constructors
         public FileViewModel(string filePath)
         {
           FilePath = filePath;
+          Load(filePath);
           base.Title = Title;
         }
 
@@ -32,6 +34,37 @@ namespace glimmer
             IsDirty = true;
         }
 
+        private void Load(string path)
+        {
+          if (File.Exists(path))
+          {
+            this._document = new TextDocument();
+            //this.HighlightDef = HighlightingManager.Instance.GetDefinition("XML");
+            this._isDirty = false;
+            //this.IsReadOnly = false;
+            //this.ShowLineNumbers = false;
+            //this.WordWrap = false;
+
+            // Check file attributes and set to read-only if file attributes indicate that
+            if ((System.IO.File.GetAttributes(path) & FileAttributes.ReadOnly) != 0)
+            {
+              this.IsReadOnly = true;
+              this.IsReadOnlyReason = "This file cannot be edit because another process is currently writting to it.\n" +
+                                      "Change the file access permissions or save the file in a different location if you want to edit it.";
+            }
+
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+              using (StreamReader reader = FileReader.OpenStream(fs, Encoding.UTF8))
+              {
+                this._document = new TextDocument(reader.ReadToEnd());
+              }
+            }
+          }
+
+        }
+        #endregion
+
         #region FilePath
         private string _filePath = null;
         public string FilePath
@@ -42,37 +75,11 @@ namespace glimmer
             if (_filePath != value)
             {
               _filePath = value;
+              ContentId = _filePath;
+
               RaisePropertyChanged("FilePath");
               RaisePropertyChanged("FileName");
               RaisePropertyChanged("Title");
-
-              if (File.Exists(this._filePath))
-              {
-                this._document = new TextDocument();
-                //this.HighlightDef = HighlightingManager.Instance.GetDefinition("XML");
-                this._isDirty = false;
-                //this.IsReadOnly = false;
-                //this.ShowLineNumbers = false;
-                //this.WordWrap = false;
-
-                // Check file attributes and set to read-only if file attributes indicate that
-                if ((System.IO.File.GetAttributes(this._filePath) & FileAttributes.ReadOnly) != 0)
-                {
-                  this.IsReadOnly = true;
-                  this.IsReadOnlyReason = "This file cannot be edit because another process is currently writting to it.\n" +
-                                          "Change the file access permissions or save the file in a different location if you want to edit it.";
-                }
-
-                using (FileStream fs = new FileStream(this._filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                  using (StreamReader reader = FileReader.OpenStream(fs, Encoding.UTF8))
-                  {
-                    this._document = new TextDocument(reader.ReadToEnd());
-                  }
-                }
-
-                ContentId = _filePath;
-              }
             }
           }
         }
