@@ -16,8 +16,6 @@ namespace glimmer
     {
         static int fileCount = 0;
 
-        string Title;
-
         public FileViewModel()
         {
             fileCount = fileCount + 1;

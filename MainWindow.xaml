@@ -29,13 +29,13 @@
             DocumentsSource="{Binding Files}"
             ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
             Grid.Row="1">
-            <avalonDock:DockingManager.DocumentHeaderTemplate>
+            <!---<avalonDock:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
                     </StackPanel>
                 </DataTemplate>
-            </avalonDock:DockingManager.DocumentHeaderTemplate>
+            </avalonDock:DockingManager.DocumentHeaderTemplate>-->
             <avalonDock:DockingManager.LayoutItemTemplateSelector>
                 <local:PanesTemplateSelector>
                     <local:PanesTemplateSelector.FileViewTemplate>
@@ -49,6 +49,19 @@
                     </local:PanesTemplateSelector.FileViewTemplate>
                 </local:PanesTemplateSelector>
             </avalonDock:DockingManager.LayoutItemTemplateSelector>
+            <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
+                <local:PanesStyleSelector>
+                    <local:PanesStyleSelector.FileStyle>
+                        <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <!---<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>-->
+                            <!---<Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>-->
+                            <!---<Setter Property="IconSource" Value="{Binding Model.IconSource}"/>-->
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                        </Style>
+                    </local:PanesStyleSelector.FileStyle>
+                </local:PanesStyleSelector>
+            </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutDocumentPane/>

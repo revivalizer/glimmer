@@ -54,6 +54,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ActiveDocumentConverter.cs" />
+    <Compile Include="PanesStyleSelector.cs" />
     <Compile Include="PanesTemplateSelector.cs" />
     <Compile Include="PaneViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
