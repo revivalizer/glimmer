@@ -31,6 +31,8 @@ namespace glimmer
             fileCount = fileCount + 1;
             base.Title = "New File " + fileCount;
 
+            this.HighlightDef = HighlightingManager.Instance.GetDefinition("GLSL");
+
             IsDirty = true;
         }
 
@@ -39,7 +41,7 @@ namespace glimmer
           if (File.Exists(path))
           {
             this._document = new TextDocument();
-            //this.HighlightDef = HighlightingManager.Instance.GetDefinition("XML");
+            this.HighlightDef = HighlightingManager.Instance.GetDefinition("GLSL");
             this._isDirty = false;
             //this.IsReadOnly = false;
             //this.ShowLineNumbers = false;
@@ -261,6 +263,23 @@ namespace glimmer
         private void OnClose()
         {
           Workspace.This.Close(this);
+        }
+        #endregion
+
+        #region HighlightingDefinition
+        private IHighlightingDefinition _highlightdef = null;
+        public IHighlightingDefinition HighlightDef
+        {
+          get { return this._highlightdef; }
+          set
+          {
+            if (this._highlightdef != value)
+            {
+              this._highlightdef = value;
+              RaisePropertyChanged("HighlightDef");
+              IsDirty = true;
+            }
+          }
         }
         #endregion
     }

@@ -42,6 +42,7 @@
                         <DataTemplate>
                               <avalonEdit:TextEditor    Document="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
                                                         IsModified="{Binding Path=IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        SyntaxHighlighting="{Binding HighlightDef}"
                               />
                                                         <!---SyntaxHighlighting="{Binding HighlightDef}"-->
                                                         <!---IsReadOnly="{Binding IsReadOnly}"-->
