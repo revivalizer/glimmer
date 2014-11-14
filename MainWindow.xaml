@@ -16,12 +16,12 @@
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="New" Command="{Binding NewCommand}"/>
-                <!---<MenuItem Header="Open" Command="{Binding OpenCommand}"/>
+                <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <Separator/>
                 <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
                 <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
                 <Separator/>
-                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>-->
+                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
             </MenuItem>
         </Menu>
         <avalonDock:DockingManager
@@ -54,8 +54,8 @@
                     <local:PanesStyleSelector.FileStyle>
                         <Style TargetType="{x:Type avalonDock:LayoutItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>
-                            <!---<Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>-->
-                            <!---<Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>-->
+                            <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
                             <!---<Setter Property="IconSource" Value="{Binding Model.IconSource}"/>-->
                             <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                         </Style>

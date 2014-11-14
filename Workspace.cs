@@ -59,6 +59,50 @@ namespace glimmer
         public event EventHandler ActiveDocumentChanged;
         #endregion
 
+        #region OpenCommand
+        RelayCommand _openCommand = null;
+        public ICommand OpenCommand
+        {
+          get
+          {
+            if (_openCommand == null)
+            {
+              _openCommand = new RelayCommand((p) => OnOpen(p), (p) => CanOpen(p));
+            }
+
+            return _openCommand;
+          }
+        }
+
+        private bool CanOpen(object parameter)
+        {
+          return true;
+        }
+
+        private void OnOpen(object parameter)
+        {
+          var dlg = new OpenFileDialog();
+          if (dlg.ShowDialog().GetValueOrDefault())
+          {
+            var fileViewModel = Open(dlg.FileName);
+            ActiveDocument = fileViewModel;
+          }
+        }
+
+        public FileViewModel Open(string filepath)
+        {
+          var fileViewModel = _files.FirstOrDefault(fm => fm.FilePath == filepath);
+          if (fileViewModel != null)
+            return fileViewModel;
+
+          fileViewModel = new FileViewModel(filepath);
+          _files.Add(fileViewModel);
+
+          return fileViewModel;
+        }
+
+        #endregion
+
         #region NewCommand
         RelayCommand _newCommand = null;
         public ICommand NewCommand
@@ -85,5 +129,35 @@ namespace glimmer
             ActiveDocument = _files.Last();
         }
         #endregion 
+
+        internal void Close(FileViewModel fileToClose)
+        {
+          if (fileToClose.IsDirty)
+          {
+            var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", fileToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
+            if (res == MessageBoxResult.Cancel)
+              return;
+            if (res == MessageBoxResult.Yes)
+            {
+              Save(fileToClose);
+            }
+          }
+
+          _files.Remove(fileToClose);
+        }
+
+        internal void Save(FileViewModel fileToSave, bool saveAsFlag = false)
+        {
+          if (fileToSave.FilePath == null || saveAsFlag)
+          {
+            var dlg = new SaveFileDialog();
+            if (dlg.ShowDialog().GetValueOrDefault())
+              fileToSave.FilePath = dlg.FileName;
+          }
+
+          File.WriteAllText(fileToSave.FilePath, fileToSave.Document.Text);
+          ActiveDocument.IsDirty = false;
+        }
+
     }
 }
