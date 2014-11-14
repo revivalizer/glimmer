@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows;
 using System.ComponentModel;
 using Xceed.Wpf.AvalonDock.Layout;
+using ICSharpCode.AvalonEdit.Document;
 
 namespace glimmer
 {
@@ -16,10 +17,6 @@ namespace glimmer
     {
         protected Workspace()
         {
-            // Test files
-            _files.Add(new FileViewModel());
-            _files.Add(new FileViewModel());
-            _files.Add(new FileViewModel());
         }
 
         static Workspace _this = new Workspace();
@@ -84,7 +81,7 @@ namespace glimmer
 
         private void OnNew(object parameter)
         {
-            _files.Add(new FileViewModel());
+            _files.Add(new FileViewModel() { Document = new TextDocument() });
             ActiveDocument = _files.Last();
         }
         #endregion 
