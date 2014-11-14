@@ -4,7 +4,7 @@
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:local="clr-namespace:glimmer"
-        Title="MainWindow" Height="350" Width="525">
+        Title="glimmer" Height="350" Width="525">
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
     </Window.Resources>
