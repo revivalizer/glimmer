@@ -40,10 +40,10 @@
                 <local:PanesTemplateSelector>
                     <local:PanesTemplateSelector.FileViewTemplate>
                         <DataTemplate>
-                              <avalonEdit:TextEditor    Document="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
-                                                        IsModified="{Binding Path=IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                        FontFamily="Consolas"
-                                                        FontSize="10pt"
+                              <local:ExtendedTextEditor     Document="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
+                                                            IsModified="{Binding Path=IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                            FontFamily="Consolas"
+                                                            FontSize="10pt"
                               />
                                                         <!---SyntaxHighlighting="{Binding HighlightDef}"-->
                                                         <!---IsReadOnly="{Binding IsReadOnly}"-->
