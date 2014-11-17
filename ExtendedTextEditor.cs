@@ -284,6 +284,8 @@ namespace glimmer
 
         Mode mode = Mode.None;
 
+		object undoGroupDescriptor;
+
         override protected void OnPreviewMouseMove(MouseEventArgs e)
         {
 			if (e.Handled)
@@ -331,7 +333,9 @@ namespace glimmer
 
                                 hasMatch = true;
 
-                             //   this.Document.UndoStack.
+                                undoGroupDescriptor = new object();
+                                this.Document.UndoStack.StartUndoGroup(undoGroupDescriptor);
+                                this.Document.UndoStack.EndUndoGroup();
                             }
 
                             m = m.NextMatch();
@@ -345,13 +349,15 @@ namespace glimmer
                 double dist = delta.X - delta.Y;
                 Debug.WriteLine(dist);
 
-                double newValue = startDragValue * Math.Exp(dist * 0.01);
+                double newValue = startDragValue + Math.Exp(dist * 0.01);
 
                 string formatStr = "F" + matchedNumFracDigits.ToString();
                 string signStr = (matchedNumSign && newValue >= 0) ? "+" : "";
                 string numStr = signStr + newValue.ToString(formatStr, CultureInfo.InvariantCulture);
 
+                this.Document.UndoStack.StartContinuedUndoGroup(undoGroupDescriptor);
                 this.Document.Replace(matchedNumOffset, curLength, numStr);
+                this.Document.UndoStack.EndUndoGroup();
                 curLength = numStr.Length;
 
                 e.Handled = true;
