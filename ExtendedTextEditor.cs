@@ -242,14 +242,20 @@ namespace glimmer
 
     public class ExtendedTextEditor : TextEditor, INotifyPropertyChanged
     {
-        TweakNumberMouseHandler handler = null;
-
         public ExtendedTextEditor()
         {
             Debug.WriteLine("cons");
-
-            this.TextArea.DefaultInputHandler.NestedInputHandlers.Add(handler = new TweakNumberMouseHandler(this.TextArea));
+            //this.TextArea.DataContextChanged += TextArea_DataContextChanged;
         }
+
+        //FileViewModel curFile = null;
+        //ICommand curSaveCommand = null;
+
+        /*void TextArea_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            curFile = (FileViewModel)this.TextArea.DataContext;
+            curSaveCommand = curFile.SaveCommand;
+        }*/
 
         protected virtual void RaisePropertyChanged(string propertyName)
         {
@@ -285,6 +291,7 @@ namespace glimmer
         Mode mode = Mode.None;
 
 		object undoGroupDescriptor;
+
 
         override protected void OnPreviewMouseMove(MouseEventArgs e)
         {
@@ -347,7 +354,6 @@ namespace glimmer
             {
                 Vector delta = e.GetPosition(this.TextArea) - startDragPos;
                 double dist = delta.X - delta.Y;
-                Debug.WriteLine(dist);
 
                 double newValue = startDragValue + Math.Exp(dist * 0.01);
 
@@ -360,6 +366,13 @@ namespace glimmer
                 this.Document.UndoStack.EndUndoGroup();
                 curLength = numStr.Length;
 
+                ICommand curSaveCommand = ((FileViewModel)this.TextArea.DataContext).SaveCommand;
+
+                // disabled because IsDirty flag is only set first change
+                // this is possible due to the continuing Undo group
+                //if (curSaveCommand.CanExecute(null))
+                    curSaveCommand.Execute(null);
+
                 e.Handled = true;
             }
         }
@@ -370,7 +383,9 @@ namespace glimmer
             if (e.Handled==true)
                 return;
 
-            if (hasMatch)
+            FileViewModel curFile = ((FileViewModel)this.TextArea.DataContext);
+
+            if (hasMatch && curFile.IsDirty==false)
             {
                 if (this.TextArea.CaptureMouse())
                 {

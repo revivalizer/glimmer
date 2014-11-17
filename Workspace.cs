@@ -10,6 +10,7 @@ using System.Windows;
 using System.ComponentModel;
 using Xceed.Wpf.AvalonDock.Layout;
 using ICSharpCode.AvalonEdit.Document;
+using System.Diagnostics;
 
 namespace glimmer
 {
