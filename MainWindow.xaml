@@ -8,6 +8,11 @@
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding ActiveDocument.SaveCommand}"></KeyBinding>
+        <KeyBinding Key="W" Modifiers="Control" Command="{Binding ActiveDocument.CloseCommand}"></KeyBinding>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding NewCommand}"></KeyBinding>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,13 +20,13 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}"/>
+                <MenuItem Header="New" Command="{Binding NewCommand}" InputGestureText="Ctrl+N"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                 <Separator/>
-                <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
+                <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}" InputGestureText="Ctrl+S"/>
                 <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
                 <Separator/>
-                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
+                <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}" InputGestureText="Ctrl+W"/>
             </MenuItem>
         </Menu>
         <avalonDock:DockingManager
