@@ -292,7 +292,6 @@ namespace glimmer
 
 		object undoGroupDescriptor;
 
-
         override protected void OnPreviewMouseMove(MouseEventArgs e)
         {
 			if (e.Handled)
@@ -300,11 +299,10 @@ namespace glimmer
 
             if (mode == Mode.None)
             {
-                TextViewPosition? position = this.TextArea.TextView.GetPositionFloor(e.GetPosition(this.TextArea.TextView));
+                TextViewPosition? position = this.TextArea.TextView.GetPositionFloor(e.GetPosition(this.TextArea.TextView) + this.TextArea.TextView.ScrollOffset);
 
                 if (position != null)
                 {
-                    //Debug.WriteLine(position);
                     DocumentLine line = this.TextArea.Document.GetLineByNumber(position.Value.Line); ;
 
                     int begin = line.Offset;
@@ -331,7 +329,7 @@ namespace glimmer
                             if (start <= lineOffset && lineOffset < start + length)
                             {
                                 matchedNumStr = m.Value;
-                                matchedNumOffset = start;
+                                matchedNumOffset = start + begin;
                                 matchedNumLength = length;
                                 matchedNumSign = m.Groups[1].Value.Length > 0;
                                 matchedNumDot = m.Groups[2].Value.Length > 0;
@@ -355,7 +353,7 @@ namespace glimmer
                 Vector delta = e.GetPosition(this.TextArea) - startDragPos;
                 double dist = delta.X - delta.Y;
 
-                double newValue = startDragValue + Math.Exp(dist * 0.01);
+                double newValue = startDragValue * Math.Exp(dist * 0.001);
 
                 string formatStr = "F" + matchedNumFracDigits.ToString();
                 string signStr = (matchedNumSign && newValue >= 0) ? "+" : "";
