@@ -13,12 +13,20 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.TextFormatting;
 using System.Windows.Threading;
-
+using System.Text.RegularExpressions;
 
 namespace glimmer
 {
     sealed class TweakNumberMouseHandler : ITextAreaInputHandler
     {
+		#region enum Mode
+		enum Mode
+		{
+            None, // No drag
+            Drag, // Dragging number
+		}
+		#endregion
+
         readonly TextArea textArea;
 
         #region Constructor + Attach + Detach
@@ -36,12 +44,17 @@ namespace glimmer
 
         public void Attach()
         {
-            textArea.MouseMove += textArea_MouseMove;
+			textArea.MouseLeftButtonDown += textArea_MouseLeftButtonDown;
+			textArea.MouseMove += textArea_MouseMove;
+			textArea.MouseLeftButtonUp += textArea_MouseLeftButtonUp;
         }
 
         public void Detach()
         {
-            textArea.MouseMove -= textArea_MouseMove;
+			mode = Mode.None;
+			textArea.MouseLeftButtonDown -= textArea_MouseLeftButtonDown;
+			textArea.MouseMove -= textArea_MouseMove;
+			textArea.MouseLeftButtonUp -= textArea_MouseLeftButtonUp;
         }
         #endregion
 
@@ -72,6 +85,20 @@ namespace glimmer
 		}*/
 
 		#region MouseMove
+        string matchedNumStr = "";
+        int matchedNumOffset = -1;
+        int matchedNumLength = 0;
+        bool matchedNumSign = false;
+        bool matchedNumDot = false;
+        int matchedNumFracDigits = 0;
+
+        bool hasMatch = false;
+
+        Point startDragPos;
+        double startDragValue;
+
+        Mode mode = Mode.None;
+
 		void textArea_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (e.Handled)
@@ -81,12 +108,45 @@ namespace glimmer
 
             if (position != null)
             {
-                Debug.WriteLine(position);
+                //Debug.WriteLine(position);
                 DocumentLine line = textArea.Document.GetLineByNumber(position.Value.Line); ;
 
                 int begin = line.Offset;
                 int end = line.EndOffset;
                 int offset = textArea.Document.GetOffset(position.Value.Location);
+                int lineOffset = offset - begin;
+
+                hasMatch = false;
+
+                //if (Char.IsDigit(textArea.Document.GetCharAt(offset)))
+                {
+                    string l = textArea.Document.GetText(line.Offset, line.Length);
+                    //string pat = @"([-+]?)\d+(\.?)(d*)";
+                    string pat = @"([-+]?)\d*(?:(\.)(\d*))?";
+                    Regex r = new Regex(pat);
+
+                    Match m = r.Match(l);
+
+                    while (m.Success && hasMatch==false)
+                    {
+                        int start = m.Index;
+                        int length = m.Length;
+
+                        if (start <= lineOffset && lineOffset < start + length)
+                        {
+                            matchedNumStr = m.Value;
+                            matchedNumOffset = start;
+                            matchedNumLength = length;
+                            matchedNumSign = m.Groups[1].Value.Length > 0;
+                            matchedNumDot = m.Groups[2].Value.Length > 0;
+                            matchedNumFracDigits = m.Groups[3].Value.Length;
+
+                            hasMatch = true;
+                        }
+
+                        m = m.NextMatch();
+                    }
+                }
                 // Use Document.GetCharAt
 
                 //textArea.Document.GetLineByNumber(offset.)
@@ -110,6 +170,70 @@ namespace glimmer
 					StartDrag();
 				}
 			}
+            */
+		}
+		#endregion
+
+		#region MouseLeftButtonDown
+		void textArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+            if (e.Handled==true)
+                return;
+
+            if (hasMatch)
+            {
+                if (textArea.CaptureMouse())
+                {
+                    mode = Mode.Drag;
+
+                    startDragPos = e.GetPosition(textArea.TextView);
+                    startDragValue = Double.Parse(matchedNumStr);
+                }
+
+                e.Handled = true;
+                return;
+            }
+			/*if (mode == SelectionMode.None || e.Handled)
+				return;
+			e.Handled = true;
+			if (mode == SelectionMode.PossibleDragStart) {
+				// -> this was not a drag start (mouse didn't move after mousedown)
+				SetCaretOffsetToMousePosition(e);
+				textArea.ClearSelection();
+			} else if (mode == SelectionMode.Normal || mode == SelectionMode.WholeWord || mode == SelectionMode.WholeLine || mode == SelectionMode.Rectangular) {
+				ExtendSelectionToMouse(e);
+			}
+			mode = SelectionMode.None;
+			textArea.ReleaseMouseCapture();
+            */
+		}
+		#endregion
+
+		#region MouseLeftButtonUp
+		void textArea_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+            if (mode == Mode.None || e.Handled == true)
+                return;
+
+            if (mode == Mode.Drag)
+            {
+                textArea.ReleaseMouseCapture();
+
+                e.Handled = true;
+                return;
+            }
+			/*if (mode == SelectionMode.None || e.Handled)
+				return;
+			e.Handled = true;
+			if (mode == SelectionMode.PossibleDragStart) {
+				// -> this was not a drag start (mouse didn't move after mousedown)
+				SetCaretOffsetToMousePosition(e);
+				textArea.ClearSelection();
+			} else if (mode == SelectionMode.Normal || mode == SelectionMode.WholeWord || mode == SelectionMode.WholeLine || mode == SelectionMode.Rectangular) {
+				ExtendSelectionToMouse(e);
+			}
+			mode = SelectionMode.None;
+			textArea.ReleaseMouseCapture();
             */
 		}
 		#endregion
