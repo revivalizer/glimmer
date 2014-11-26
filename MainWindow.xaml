@@ -50,8 +50,8 @@
                                                             IsModified="{Binding Path=IsDirty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                             FontFamily="Consolas"
                                                             FontSize="10pt"
+                                                            SyntaxHighlighting="{Binding HighlightDef}"
                               />
-                                                        <!---SyntaxHighlighting="{Binding HighlightDef}"-->
                                                         <!---IsReadOnly="{Binding IsReadOnly}"-->
                         </DataTemplate>
                     </local:PanesTemplateSelector.FileViewTemplate>
