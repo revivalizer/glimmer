@@ -24,7 +24,8 @@ namespace glimmer
     {
         public ExtendedTextEditor()
         {
-            this.Background = new SolidColorBrush(Color.FromArgb(255, 0, 43, 54));
+            this.Background = new SolidColorBrush(Color.FromArgb(255, 0, 43, 54)); // base 03
+            this.Foreground = new SolidColorBrush(Color.FromArgb(255, 131, 148, 150)); // base 0
         }
 
         protected virtual void RaisePropertyChanged(string propertyName)

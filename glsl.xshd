@@ -24,8 +24,25 @@
   <Color name="JumpKeywords" foreground="#FFFFFFFF" />
   <Color name="ExceptionHandling" foreground="#FFFFFFFF" fontWeight="bold" />
   <Color name="ControlFlow" foreground="#FFFFFFFF" fontWeight="bold" />
+  <Color name="base03"  foreground="#ff002b36" />
+  <Color name="base02"  foreground="#ff073642" />
+  <Color name="base01"  foreground="#ff586e75" />
+  <Color name="base00"  foreground="#ff657b83" />
+  <Color name="base0"   foreground="#ff839496" />
+  <Color name="base1"   foreground="#ff93a1a1" />
+  <Color name="base2"   foreground="#ffeee8d5" />
+  <Color name="base3"   foreground="#fffdf6e3" />
+  <Color name="yellow"  foreground="#ffb58900" />
+  <Color name="orange"  foreground="#ffcb4b16" />
+  <Color name="red"     foreground="#ffdc322f" />
+  <Color name="magenta" foreground="#ffd33682" />
+  <Color name="violet"  foreground="#ff6c71c4" />
+  <Color name="blue"    foreground="#ff268bd2" />
+  <Color name="cyan"    foreground="#ff2aa198" />
+  <Color name="green"   foreground="#ff859900" />
+  
   <RuleSet ignoreCase="false">
-    <Rule color="Punctuation">
+    <Rule color="base0">
       [?,.;()\[\]{}+\-/%*&lt;&gt;^=~!&amp;]+
     </Rule>
     <Keywords color="CompoundKeywords">
@@ -88,7 +105,7 @@
     <Keywords color="Friend">
       <Word>friend</Word>
     </Keywords>
-    <Keywords color="BuiltInVariables">
+    <Keywords color="blue">
       <Word>gl_Position</Word>
       <Word>gl_PointSize</Word>
       <Word>gl_ClipVertex</Word>
@@ -127,7 +144,7 @@
       <Word>gl_FogCoord</Word>
 
     </Keywords>
-    <Keywords color="Modifiers">
+    <Keywords color="magenta">
       <Word>const</Word>
       <Word>attribute</Word>
       <Word>in</Word>
@@ -136,7 +153,7 @@
       <Word>uniform</Word>
       <Word>varying</Word>
     </Keywords>
-    <Keywords color="TypeKeywords">
+    <Keywords color="yellow">
       <Word>bool</Word>
       <Word>int</Word>
       <Word>void</Word>
@@ -160,16 +177,16 @@
       <Word>sampler1DShadow</Word>
       <Word>sampler2DShadow</Word>
     </Keywords>
-    <Keywords color="BooleanConstants">
+    <Keywords color="cyan">
       <Word>false</Word>
       <Word>true</Word>
     </Keywords>
-    <Keywords color="LoopKeywords">
+    <Keywords color="green">
       <Word>do</Word>
       <Word>for</Word>
       <Word>while</Word>
     </Keywords>
-    <Keywords color="JumpKeywords">
+    <Keywords color="green">
       <Word>break</Word>
       <Word>continue</Word>
       <Word>goto</Word>
@@ -180,7 +197,7 @@
       <Word>throw</Word>
       <Word>try</Word>
     </Keywords>
-    <Keywords color="ControlFlow">
+    <Keywords color="green">
       <Word>case</Word>
       <Word>else</Word>
       <Word>if</Word>
@@ -188,7 +205,7 @@
       <Word>default</Word>
       <Word>discard</Word>
     </Keywords>
-    <Keywords color="Keywords">
+    <Keywords color="yellow">
       <Word>asm</Word>
       <Word>auto</Word>
       <Word>compl</Word>
@@ -212,34 +229,34 @@
       <Word>typeid</Word>
       <Word>typename</Word>
     </Keywords>
-    <Span color="Preprocessor">
+    <Span color="orange">
       <Begin>\#</Begin>
     </Span>
     <Span color="ShaderDelimiter">
       <Begin>--</Begin>
     </Span>
-    <Span color="Comment">
+    <Span color="base01">
       <Begin>//</Begin>
     </Span>
-    <Span color="Comment" multiline="true">
+    <Span color="base01" multiline="true">
       <Begin>/\*</Begin>
       <End>\*/</End>
     </Span>
-    <Span color="String">
+    <Span color="cyan">
       <Begin>"</Begin>
       <End>"</End>
       <RuleSet>
         <Span begin="\\" end="." />
       </RuleSet>
     </Span>
-    <Span color="Character">
+    <Span color="cyan">
       <Begin>'</Begin>
       <End>'</End>
       <RuleSet>
         <Span begin="\\" end="." />
       </RuleSet>
     </Span>
-    <Rule color="MethodName">[\d\w_]+(?=(\s*\())</Rule>
-    <Rule color="Digits">\b0[xX][0-9a-fA-F]+|(\b\d+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?</Rule>
+    <Rule color="violet">[\d\w_]+(?=(\s*\())</Rule>
+    <Rule color="cyan">\b0[xX][0-9a-fA-F]+|(\b\d+(\.[0-9]+)?|\.[0-9]+)([eE][+-]?[0-9]+)?</Rule>
   </RuleSet>
 </SyntaxDefinition>
