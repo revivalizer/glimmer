@@ -26,6 +26,10 @@ namespace glimmer
         {
             this.Background = new SolidColorBrush(Color.FromArgb(255, 0, 43, 54)); // base 03
             this.Foreground = new SolidColorBrush(Color.FromArgb(255, 131, 148, 150)); // base 0
+
+            this.ShowLineNumbers = true;
+            this.Padding = new System.Windows.Thickness(5.0);
+            this.LineNumbersForeground = new SolidColorBrush(Color.FromArgb(255, 101, 123, 131)); // base 0
         }
 
         protected virtual void RaisePropertyChanged(string propertyName)
